@@ -243,8 +243,6 @@ class Task(ApiComponent):
         if value.tzinfo is None:
             # localize datetime
             value = value.replace(tzinfo=self.protocol.timezone)
-        elif value.tzinfo != self.protocol.timezone:
-            value = value.astimezone(self.protocol.timezone)
         self.__due = value
         self._track_changes.add(self._cc("dueDateTime"))
 
