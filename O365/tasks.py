@@ -277,8 +277,6 @@ class Recurrence(ApiComponent):
         )
 
         cloud_data = kwargs.get(self._cloud_data_key, {})
-        if not cloud_data:
-            return
         pattern = cloud_data.get("pattern")
         #: The recurrence pattern for the recurrences
         #: |br| **Type:** Pattern
@@ -618,9 +616,12 @@ class Task(ApiComponent):
         recurrence = cloud_data.get("recurrence")
         #: The recurrence pattern and range
         #: |br| **Type:** Recurrence
-        self.recurrence = self.recurrence_constructor(
-            parent=self, **{self._cloud_data_key: recurrence}
-        )
+        if recurrence:
+            self.recurrence = self.recurrence_constructor(
+                parent=self, **{self._cloud_data_key: recurrence}
+            )
+        else:
+            self.recurrence = None
 
     def __str__(self):
         """Representation of the Task via the Graph api as a string."""
